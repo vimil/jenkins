@@ -965,6 +965,10 @@ public abstract class Run <JobT extends Job<JobT,RunT>,RunT extends Run<JobT,Run
      * Gets the directory where the artifacts are archived.
      */
     public File getArtifactsDir() {
+		ArtifactAction artifactAction = getAction(ArtifactAction.class);
+		if(artifactAction != null) {
+			return artifactAction.getArtifactsDir(this);
+		}
         return new File(getRootDir(),"archive");
     }
 
