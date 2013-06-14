@@ -76,7 +76,10 @@ import java.io.OutputStream;
 import java.io.Serializable;
 import java.io.Writer;
 import java.io.OutputStreamWriter;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
@@ -1642,9 +1645,9 @@ public final class FilePath implements Serializable {
         channel.callAsync(new Callable<Void,IOException>() {
             private static final long serialVersionUID = 1L;
             public Void call() throws IOException {
-                FileInputStream fis=null;
+                InputStream fis=null;
                 try {
-					fis = newFileInputStream(getLocalPath());
+					fis = FilePath.newFileInputStream(getLocalPath());
                     Util.copyStream(fis,p.getOut());
                     return null;
                 } finally {
@@ -1816,7 +1819,7 @@ public final class FilePath implements Serializable {
         act(new FileCallable<Void>() {
             private static final long serialVersionUID = 4088559042349254141L;
             public Void invoke(File f, VirtualChannel channel) throws IOException {
-                FileInputStream fis = null;
+                InputStream fis = null;
                 try {
 					fis = newFileInputStream(f);
                     Util.copyStream(fis,out);
